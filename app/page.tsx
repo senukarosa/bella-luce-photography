@@ -107,7 +107,7 @@ export default function Home() {
                 "25 edited photos",
                 "Digital delivery",
                 "Advanced retouching",
-                "5 printed photos (5×7)",
+                "2 printed photos (5×7)",
               ]}
               featured={true}
               delay={100}

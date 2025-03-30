@@ -115,14 +115,14 @@ export default function Home() {
 
             <PackageCard
               title="Premium"
-              price="LKR 22,000"
+              price="LKR 28,000"
               features={[
                 "4 hours session",
                 "Multiple locations",
                 "35 edited photos",
                 "Digital delivery",
                 "Premium retouching",
-                "10 printed photos (5×7)",
+                "5 printed photos (5×7)",
                 "One 11×14 mounted print",
               ]}
               delay={200}

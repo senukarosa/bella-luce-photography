@@ -107,7 +107,7 @@ export default function Home() {
                 "25 edited photos",
                 "Digital delivery",
                 "Advanced retouching",
-                "2 printed photos (5×7)",
+                "Optional add-on: 5×7 printed photos (on request, additional fee)",
               ]}
               featured={true}
               delay={100}
@@ -122,8 +122,8 @@ export default function Home() {
                 "35 edited photos",
                 "Digital delivery",
                 "Premium retouching",
-                "5 printed photos (5×7)",
-                "One 11×14 mounted print",
+                "Optional add-on: 5×7 printed photos (on request, additional fee)",
+                "Optional upgrade: 11×14 mounted print (on request, additional fee)",
               ]}
               delay={200}
             />

@@ -147,7 +147,7 @@ export default function Home() {
             Best Captures
           </h2>
 
-          <Gallery />
+          <Gallery maxItems={6} />
 
           <div className="text-center mt-12 animate-on-scroll">
             <Button

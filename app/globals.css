@@ -24,6 +24,10 @@
     --input: 20 5.9% 90%;
     --ring: 24 9.8% 10%;
     --radius: 0.5rem;
+
+    /* Font stacks as CSS variables (include generic fallbacks) */
+    --font-open-sans: "Open Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+    --font-playfair: "Playfair Display", ui-serif, Georgia, "Times New Roman", Times, serif;
   }
 
   .dark {
@@ -55,7 +59,7 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: var(--font-open-sans);
+    font-family: var(--font-open-sans, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif), sans-serif;
   }
   h1,
   h2,
@@ -63,17 +67,17 @@
   h4,
   h5,
   h6 {
-    font-family: var(--font-playfair);
+    font-family: var(--font-playfair, ui-serif, Georgia, "Times New Roman", Times, serif), serif;
   }
 }
 
 @layer utilities {
   .font-open-sans {
-    font-family: var(--font-open-sans);
+    font-family: var(--font-open-sans, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif), sans-serif;
   }
 
   .font-playfair {
-    font-family: var(--font-playfair);
+    font-family: var(--font-playfair, ui-serif, Georgia, "Times New Roman", Times, serif), serif;
   }
 
   .animate-fade-in-up {
@@ -136,4 +140,3 @@
     transform: translateY(0px);
   }
 }
-

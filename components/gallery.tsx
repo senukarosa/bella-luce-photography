@@ -8,16 +8,28 @@ import { X } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 
 const galleryImages = [
-  { src: "/gallery/photo1.jpg", width: 400, height: 300, alt: "Capture 1" },
-  { src: "/gallery/photo2.jpg", width: 400, height: 300, alt: "Capture 2" },
-  { src: "/gallery/photo3.jpg", width: 600, height: 400, alt: "Capture 3" },
-  { src: "/gallery/photo4.jpg", width: 450, height: 300, alt: "Capture 4" },
-  { src: "/gallery/photo5.jpg", width: 400, height: 600, alt: "Capture 5" },
-  { src: "/gallery/photo6.jpg", width: 500, height: 300, alt: "Capture 6" },
+  { src: "/gallery/photo1.jpg", width: 1200, height: 800, alt: "Gallery photo 1" },
+  { src: "/gallery/photo2.jpg", width: 1200, height: 800, alt: "Gallery photo 2" },
+  { src: "/gallery/photo3.jpg", width: 1200, height: 800, alt: "Gallery photo 3" },
+  { src: "/gallery/photo4.jpg", width: 1200, height: 800, alt: "Gallery photo 4" },
+  { src: "/gallery/photo5.jpg", width: 1200, height: 800, alt: "Gallery photo 5" },
+  { src: "/gallery/photo6.jpg", width: 1200, height: 800, alt: "Gallery photo 6" },
+  { src: "/gallery/photo7.jpg", width: 1200, height: 800, alt: "Gallery photo 7" },
+  { src: "/gallery/photo8.jpg", width: 1200, height: 800, alt: "Gallery photo 8" },
+  { src: "/gallery/photo9.jpg", width: 1200, height: 800, alt: "Gallery photo 9" },
+  { src: "/gallery/photo10.jpg", width: 1200, height: 800, alt: "Gallery photo 10" },
+  { src: "/gallery/photo11.jpg", width: 1200, height: 800, alt: "Gallery photo 11" },
+  { src: "/gallery/photo12.jpg", width: 1200, height: 800, alt: "Gallery photo 12" },
+  { src: "/gallery/photo13.jpg", width: 1200, height: 800, alt: "Gallery photo 13" },
+  { src: "/gallery/photo14.jpg", width: 1200, height: 800, alt: "Gallery photo 14" },
+  { src: "/gallery/photo15.jpg", width: 1200, height: 800, alt: "Gallery photo 15" },
+  { src: "/gallery/photo16.jpg", width: 1200, height: 800, alt: "Gallery photo 16" },
+  { src: "/gallery/photo17.jpg", width: 1200, height: 800, alt: "Gallery photo 17" },
 ]
 
-export default function Gallery() {
+export default function Gallery({ maxItems }: { maxItems?: number }) {
   const [selectedImage, setSelectedImage] = useState<number | null>(null)
+  const displayedImages = maxItems ? galleryImages.slice(0, maxItems) : galleryImages
 
   const openLightbox = (index: number) => {
     setSelectedImage(index)
@@ -33,9 +45,9 @@ export default function Gallery() {
     if (selectedImage === null) return
 
     if (direction === "next") {
-      setSelectedImage((selectedImage + 1) % galleryImages.length)
+      setSelectedImage((selectedImage + 1) % displayedImages.length)
     } else {
-      setSelectedImage((selectedImage - 1 + galleryImages.length) % galleryImages.length)
+      setSelectedImage((selectedImage - 1 + displayedImages.length) % displayedImages.length)
     }
   }
 
@@ -52,7 +64,7 @@ export default function Gallery() {
   return (
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {galleryImages.map((image, index) => (
+        {displayedImages.map((image, index) => (
           <div
             key={index}
             className="relative aspect-[4/3] overflow-hidden cursor-pointer animate-on-scroll"
@@ -97,15 +109,15 @@ export default function Gallery() {
               onClick={(e) => e.stopPropagation()}
             >
               <Image
-                src={galleryImages[selectedImage].src || "/placeholder.svg"}
-                alt={galleryImages[selectedImage].alt}
+                src={displayedImages[selectedImage].src || "/placeholder.svg"}
+                alt={displayedImages[selectedImage].alt}
                 fill
                 className="object-contain"
               />
             </motion.div>
 
             <div className="absolute inset-x-0 bottom-4 flex justify-center space-x-2">
-              {galleryImages.map((_, index) => (
+              {displayedImages.map((_, index) => (
                 <button
                   key={index}
                   className={`w-2 h-2 rounded-full ${index === selectedImage ? "bg-white" : "bg-gray-500"}`}

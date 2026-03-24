@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     "branding multimedia",
   ],
   openGraph: {
-    title: "Senuka Rosa | Creative Multi-Disciplinary Professional",
+    title: "Senuka Rosa",
     description:
       "Photographer, Software Engineer & Creative Director based in Negombo, Sri Lanka.",
     type: "website",

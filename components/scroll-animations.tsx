@@ -4,28 +4,25 @@ import { useEffect } from "react"
 
 export default function ScrollAnimations() {
   useEffect(() => {
-    const animateOnScroll = () => {
-      const elements = document.querySelectorAll(".animate-on-scroll")
+    const elements = document.querySelectorAll(".animate-on-scroll")
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible")
+            // Optional: stop observing once visible
+            // observer.unobserve(entry.target)
+          }
+        })
+      },
+      { rootMargin: "0px 0px -150px 0px" }
+    )
 
-      elements.forEach((element) => {
-        const elementTop = element.getBoundingClientRect().top
-        const elementVisible = 150
-
-        if (elementTop < window.innerHeight - elementVisible) {
-          element.classList.add("is-visible")
-        }
-      })
-    }
-
-    // Run once on load
-    animateOnScroll()
-
-    // Add scroll event listener
-    window.addEventListener("scroll", animateOnScroll)
+    elements.forEach((el) => observer.observe(el))
 
     // Clean up
     return () => {
-      window.removeEventListener("scroll", animateOnScroll)
+      observer.disconnect()
     }
   }, [])
 

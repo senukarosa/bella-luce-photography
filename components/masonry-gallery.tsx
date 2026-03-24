@@ -59,6 +59,7 @@ export default function MasonryGallery() {
               alt={img.alt}
               width={600}
               height={800}
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
             />
             {/* Hover overlay */}

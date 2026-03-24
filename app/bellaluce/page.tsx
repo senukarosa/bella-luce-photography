@@ -5,7 +5,7 @@ import { Camera, Sun, Heart, MapPin, Mail, Phone, MessageCircle, Instagram, Chec
 import MasonryGallery from "@/components/masonry-gallery"
 
 export const metadata: Metadata = {
-  title: "Bella Luce Photography | Timeless Portraits in Golden Light",
+  title: "Bella Luce",
   description:
     "Capturing authentic emotion through natural golden light. Portrait, family, and wedding photography in Negombo, Sri Lanka.",
   keywords: ["Bella Luce Photography", "portrait photographer Negombo", "wedding photographer Sri Lanka", "golden hour photography"],

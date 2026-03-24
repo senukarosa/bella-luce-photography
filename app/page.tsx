@@ -1,353 +1,421 @@
+"use client"
+
+import { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Phone, Mail, Facebook, Instagram, MessageCircle } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import Gallery from "@/components/gallery"
-import PackageCard from "@/components/package-card"
-import ContactForm from "@/components/contact-form"
+import { motion } from "framer-motion"
+import {
+  Camera, Code2, Sparkles, Mail, Phone,
+  ArrowRight, Github, Instagram, Facebook, Linkedin, MessageCircle,
+  Coffee, Laptop, Aperture
+} from "lucide-react"
+import { BentoGrid, BentoTile } from "@/components/bento-grid"
 
-export default function Home() {
+/* ── Typewriter hook ─────────────────────────────────────────────── */
+function useTypewriter(words: string[], speed = 80, pause = 1800) {
+  const [text, setText] = useState("")
+  const [wordIdx, setWordIdx] = useState(0)
+  const [charIdx, setCharIdx] = useState(0)
+  const [deleting, setDeleting] = useState(false)
+
+  useEffect(() => {
+    const current = words[wordIdx]
+    const timeout = setTimeout(() => {
+      if (!deleting && charIdx < current.length) {
+        setText(current.slice(0, charIdx + 1))
+        setCharIdx(c => c + 1)
+      } else if (!deleting && charIdx === current.length) {
+        setTimeout(() => setDeleting(true), pause)
+      } else if (deleting && charIdx > 0) {
+        setText(current.slice(0, charIdx - 1))
+        setCharIdx(c => c - 1)
+      } else {
+        setDeleting(false)
+        setWordIdx(i => (i + 1) % words.length)
+      }
+    }, deleting ? speed / 2 : speed)
+    return () => clearTimeout(timeout)
+  }, [charIdx, deleting, wordIdx, words, speed, pause])
+
+  return text
+}
+
+/* ── Tech badges ─────────────────────────────────────────────────── */
+const techStack = [
+  "React", "Next.js", "Python", "TypeScript", "Flask",
+  "TailwindCSS", "Node.js", "Figma",
+]
+
+/* ── GitHub projects (static) ─────────────────────────────────────── */
+const projects = [
+  { name: "bella-luce-photography", desc: "Photography portfolio — Next.js 15 + Framer Motion", lang: "TypeScript", stars: 4 },
+  { name: "flask-api-toolkit", desc: "Reusable Flask REST API starter with JWT auth", lang: "Python", stars: 12 },
+]
+
+/* ── Social links ─────────────────────────────────────────────────── */
+const socials = [
+  { icon: Instagram, href: "https://www.instagram.com/senuka.rosa/", label: "Instagram" },
+  { icon: Facebook, href: "https://www.facebook.com/senuka.rosa", label: "Facebook" },
+  { icon: Linkedin, href: "https://www.linkedin.com/in/senuka-rosa-713108219/", label: "LinkedIn" },
+]
+
+/* ═══════════════════════════════════════════════════════════════════ */
+
+export default function HubPage() {
+  const typeText = useTypewriter(["Creator.", "Engineer.", "Visionary.", "Designer."], 90, 1600)
+
   return (
-    <main className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative h-screen overflow-hidden">
-        <div className="absolute inset-0">
-          <Image src="/images/DSC01202.jpg" alt="Background" fill className="object-cover object-center" priority />
-          <div className="absolute inset-0 bg-black/30"></div>
+    <main className="min-h-screen bg-[#121212]">
+      {/* ── HERO ─────────────────────────────────────────────────────── */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        {/* Ambient background blobs */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full bg-amber-400/6 blur-[120px]" />
+          <div className="absolute top-1/2 right-0 w-[400px] h-[400px] rounded-full bg-cyber-400/6 blur-[120px]" />
+          <div className="absolute bottom-0 left-1/4 w-[350px] h-[350px] rounded-full bg-orange-400/6 blur-[100px]" />
         </div>
 
-        <div className="relative h-full container mx-auto flex flex-col justify-center items-start px-4 md:px-6">
-          <div className="max-w-2xl space-y-6 text-white">
-            <h1 className="text-4xl md:text-6xl font-playfair font-semibold leading-tight animate-fade-in-up">
-              Timeless Portraits in Golden Light
-            </h1>
-            <p className="text-xl md:text-2xl font-open-sans animate-fade-in-up animation-delay-200">
-              Capturing the essence of every soul through elegant photography.
-            </p>
-            <div className="animate-fade-in-up animation-delay-300">
-              <Button asChild size="lg" className="mt-4 bg-white text-stone-800 hover:bg-white/90 rounded-none">
-                <Link href="#gallery">View Portfolio</Link>
-              </Button>
-            </div>
-          </div>
-        </div>
+        {/* Subtle grid pattern */}
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage:
+              "linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px)",
+            backgroundSize: "60px 60px",
+          }}
+        />
 
-        <div className="absolute bottom-0 right-0 w-full md:w-1/2 lg:w-2/5 h-1/3 md:h-2/3">
-          <div className="relative h-full w-full animate-float">
-            <Image src="/images/DSC01202.jpg" alt="Foreground" fill className="object-cover object-center" />
-          </div>
-        </div>
-      </section>
+        <div className="relative z-10 container mx-auto px-4 md:px-6 text-center">
+          {/* Badge */}
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-xs text-white/60 font-jetbrains mb-8 tracking-widest uppercase"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+            Negombo, Sri Lanka · Available for work
+          </motion.div>
 
-      {/* About Section */}
-      <section id="about" className="py-20 bg-white">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-playfair font-semibold mb-8 animate-on-scroll">
-              About Bella Luce Photography
-            </h2>
-            <p className="text-lg md:text-xl text-stone-700 leading-relaxed animate-on-scroll animation-delay-200">
-              At Bella Luce, we specialize in capturing authentic moments with elegance and emotion. Based in Negombo,
-              Sri Lanka, our work blends natural light and artistic composition.
-            </p>
-            <div className="grid md:grid-cols-2 gap-8 mt-12">
-              <div className="relative h-80 overflow-hidden animate-on-scroll animation-delay-300">
-                <Image
-                  src="/images/about-1.jpg"
-                  alt="About Bella Luce"
-                  fill
-                  className="object-cover hover:scale-105 transition-transform duration-700"
-                />
-              </div>
-              <div className="relative h-80 overflow-hidden animate-on-scroll animation-delay-400">
-                <Image
-                  src="/images/about-2.jpg"
-                  alt="About Bella Luce"
-                  fill
-                  className="object-cover hover:scale-105 transition-transform duration-700"
-                />
-              </div>
-            </div>
-            <div className="mt-12 text-left animate-on-scroll animation-delay-500">
-              <p className="text-lg text-stone-700 leading-relaxed mb-4">
-                Our philosophy is simple: to create timeless images that tell your unique story. Whether it's a wedding,
-                family portrait, or special event, we approach each session with creativity and attention to detail.
-              </p>
-              <p className="text-lg text-stone-700 leading-relaxed">
-                We believe that the best photographs happen when you feel comfortable and at ease. That's why we take
-                the time to get to know you, understand your vision, and create a relaxed environment where natural
-                moments can shine.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+          <motion.h1
+            className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-playfair font-bold text-white leading-tight mb-4"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+          >
+            Senuka Rosa
+          </motion.h1>
 
-      {/* Packages Section */}
-      <section id="packages" className="py-20 bg-stone-100">
-        <div className="container mx-auto px-4 md:px-6">
-          <h2 className="text-3xl md:text-4xl font-playfair font-semibold text-center mb-12 animate-on-scroll">
-            Photography Packages
-          </h2>
+          <motion.div
+            className="text-xl sm:text-2xl md:text-4xl font-playfair font-semibold mb-8 h-10 sm:h-12 flex items-center justify-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+          >
+            <span className="text-white/40 mr-3">—</span>
+            <span className="text-amber-400">{typeText}</span>
+            <span className="ml-1 text-amber-400 animate-pulse">|</span>
+          </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            <PackageCard
-              title="Basic"
-              price="LKR 8,000"
-              features={["1 hour session", "1 location", "15 edited photos", "Digital delivery", "Basic retouching"]}
-              delay={0}
-            />
+          <motion.p
+            className="text-base sm:text-lg md:text-xl text-white/55 max-w-2xl mx-auto mb-10 leading-relaxed px-2"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+          >
+            Photographer capturing golden moments. Engineer building precision tools.
+            Creative director crafting bold visual identities.
+          </motion.p>
 
-            <PackageCard
-              title="Deluxe"
-              price="LKR 15,000"
-              features={[
-                "2 hours session",
-                "2 locations",
-                "25 edited photos",
-                "Digital delivery",
-                "Advanced retouching",
-                "Optional add-on: 5×7 printed photos (on request, additional fee)",
-              ]}
-              featured={true}
-              delay={100}
-            />
-
-            <PackageCard
-              title="Premium"
-              price="LKR 28,000"
-              features={[
-                "4 hours session",
-                "Multiple locations",
-                "35 edited photos",
-                "Digital delivery",
-                "Premium retouching",
-                "Optional add-on: 5×7 printed photos (on request, additional fee)",
-                "Optional upgrade: 11×14 mounted print (on request, additional fee)",
-              ]}
-              delay={200}
-            />
-          </div>
-
-          <div className="text-center mt-12 animate-on-scroll animation-delay-500">
-            <p className="text-lg text-stone-700 mb-6">
-              Looking for something custom? Contact us for specialized packages.
-            </p>
-            <Button asChild className="bg-stone-800 hover:bg-stone-700 rounded-none">
-              <Link href="#contact">Get in Touch</Link>
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* Gallery Section */}
-      <section id="gallery" className="py-20 bg-white">
-        <div className="container mx-auto px-4 md:px-6">
-          <h2 className="text-3xl md:text-4xl font-playfair font-semibold text-center mb-12 animate-on-scroll">
-            Best Captures
-          </h2>
-
-          <Gallery />
-
-          <div className="text-center mt-12 animate-on-scroll">
-            <Button
-              asChild
-              variant="outline"
-              className="border-stone-800 text-stone-800 hover:bg-stone-800 hover:text-white rounded-none"
+          <motion.div
+            className="flex flex-wrap items-center justify-center gap-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.65 }}
+          >
+            <Link
+              href="#verticals"
+              className="px-7 py-3 bg-amber-400 text-[#0e0e0e] font-semibold rounded-xl hover:bg-amber-300 transition-colors duration-200 text-sm"
             >
-              <Link href="#contact">Book a Session</Link>
-            </Button>
-          </div>
+              Explore My Work
+            </Link>
+            <Link
+              href="#contact"
+              className="px-7 py-3 border border-white/15 text-white/80 rounded-xl hover:border-white/30 hover:text-white transition-all duration-200 text-sm"
+            >
+              Get in Touch
+            </Link>
+          </motion.div>
         </div>
+
+        {/* Scroll hint */}
+        <motion.div
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/30"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5 }}
+        >
+          <span className="text-xs font-jetbrains tracking-widest uppercase">Scroll</span>
+          <motion.div
+            className="w-px h-8 bg-white/20"
+            animate={{ scaleY: [1, 0, 1] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+          />
+        </motion.div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="py-20 bg-stone-100">
-        <div className="container mx-auto px-4 md:px-6">
-          <h2 className="text-3xl md:text-4xl font-playfair font-semibold text-center mb-12 animate-on-scroll">
-            Client Testimonials
+      {/* ── BENTO GRID — MISSION CONTROL ─────────────────────────── */}
+      <section id="verticals" className="py-20 px-4 md:px-6 container mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mb-12 text-center"
+        >
+          <p className="font-jetbrains text-xs text-white/30 tracking-widest uppercase mb-3">Mission Control</p>
+          <h2 className="text-3xl md:text-4xl font-playfair font-semibold text-white">
+            Three Disciplines. One Vision.
           </h2>
+        </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              {
-                quote:
-                  "Bella Luce captured our wedding day perfectly. The photos are absolutely stunning and really captured the emotions of the day.",
-                name: "Amara & Dinesh",
-                location: "Negombo",
-              },
-              {
-                quote:
-                  "I was nervous about my portrait session, but the photographer made me feel so comfortable. The results exceeded my expectations!",
-                name: "Priya S.",
-                location: "Colombo",
-              },
-              {
-                quote:
-                  "The family photoshoot was a wonderful experience. The photos are treasures we'll cherish forever. Highly recommend!",
-                name: "The Fernando Family",
-                location: "Negombo",
-              },
-            ].map((testimonial, index) => (
-              <div
-                key={index}
-                className="bg-white p-8 shadow-md hover:shadow-lg transition-shadow duration-300 animate-on-scroll"
-                style={{ animationDelay: `${index * 100}ms` }}
+        <BentoGrid>
+          {/* ── Bella Luce Hero tile ── */}
+          <BentoTile colSpan={8} rowSpan={4} accent="amber" delay={0}>
+            <Link href="/bellaluce" className="block w-full h-full group">
+              <div className="absolute inset-0">
+                <Image
+                  src="/gallery/photo1.jpg"
+                  alt="Bella Luce Photography — golden hour portrait"
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+              </div>
+              <div className="absolute bottom-0 left-0 p-6 md:p-8 z-10">
+                <div className="flex items-center gap-2 mb-2">
+                  <Camera className="w-4 h-4 text-amber-400" />
+                  <span className="font-jetbrains text-xs text-amber-400 tracking-widest uppercase">Bella Luce</span>
+                </div>
+                <h3 className="text-2xl md:text-3xl font-playfair font-semibold text-white mb-1">
+                  Timeless Portraits
+                </h3>
+                <p className="text-white/60 text-sm mb-4">in Golden Light · Negombo, Sri Lanka</p>
+                <span className="inline-flex items-center gap-2 text-amber-400 text-sm font-medium group-hover:gap-3 transition-all duration-200">
+                  View Gallery <ArrowRight className="w-4 h-4" />
+                </span>
+              </div>
+              <div className="absolute top-4 right-4 z-10 px-3 py-1 rounded-full bg-amber-400/20 border border-amber-400/30 text-amber-400 text-xs font-jetbrains">
+                Photography
+              </div>
+            </Link>
+          </BentoTile>
+
+          {/* ── Portfolio card ── */}
+          <BentoTile colSpan={4} rowSpan={2} accent="cyber" delay={1}>
+            <Link href="/portfolio" className="block w-full h-full group p-5 md:p-6">
+              <div className="flex items-center gap-2 mb-3">
+                <Code2 className="w-4 h-4 text-cyber-400" />
+                <span className="font-jetbrains text-xs text-cyber-400 tracking-widest uppercase">Portfolio</span>
+              </div>
+              <div className="font-jetbrains text-xs text-white/30 mb-4 leading-relaxed">
+                <span className="text-cyber-400">const</span>{" "}
+                <span className="text-white/70">dev</span>{" "}
+                <span className="text-white/40">=</span>{" "}
+                <span className="text-amber-400">&quot;fullstack&quot;</span>
+                <br />
+                <span className="text-cyber-400">import</span>{" "}
+                <span className="text-white/70">&#123; passion &#125;</span>
+              </div>
+              <h3 className="text-xl font-playfair font-semibold text-white mb-1">Software Engineering</h3>
+              <p className="text-white/50 text-xs mb-2">React · Python · Next.js · Flask</p>
+              <span className="inline-flex items-center gap-2 text-sm font-medium group-hover:gap-2 transition-all duration-200" style={{ color: "#3A7BD5", transform: "translateY(-4px)" }}>
+                View<ArrowRight className="w-3 h-3" />
+              </span>
+            </Link>
+          </BentoTile>
+
+          {/* ── HyperVisuals card ── */}
+          <BentoTile colSpan={4} rowSpan={2} accent="orange" delay={2}>
+            <Link href="/hypervisuals" className="block w-full h-full group p-5 md:p-6 relative overflow-hidden">
+              {/* Logo background */}
+              <div className="absolute top-3 right-6 w-16 h-16 md:w-20 md:h-20 opacity-20 group-hover:opacity-30 transition-opacity">
+                <Image src="/hypervisuals/logo-white.png" alt="" fill className="object-contain" />
+              </div>
+              <div className="relative z-10">
+                <div className="flex items-center gap-2 mb-3">
+                  <Sparkles className="w-4 h-4" style={{ color: "#3A7BD5" }} />
+                  <span className="font-jetbrains text-xs tracking-widest uppercase" style={{ color: "#3A7BD5" }}>HyperVisuals</span>
+                </div>
+                <h3 className="text-xl font-playfair font-semibold text-white mb-1">Multimedia & Branding</h3>
+                <p className="text-white/50 text-xs mb-4">Video · Motion · Visual Identity</p>
+                <div className="flex gap-2 flex-wrap mb-4">
+                  {["After Effects", "Premiere Pro", "DaVinci Resolve"].map(s => (
+                    <span key={s} className="text-xs px-2 py-1 rounded-md border" style={{ background: "rgba(58,123,213,0.1)", color: "rgba(58,123,213,0.85)", borderColor: "rgba(58,123,213,0.2)" }}>
+                      {s}
+                    </span>
+                  ))}
+                </div>
+                <span className="inline-flex items-center gap-2 text-sm font-medium group-hover:gap-3 transition-all duration-200" style={{ color: "#3A7BD5" }}>
+                  View Work <ArrowRight className="w-4 h-4" />
+                </span>
+              </div>
+            </Link>
+          </BentoTile>
+
+          {/* ── About snippet ── */}
+          <BentoTile colSpan={4} rowSpan={2} accent="neutral" delay={3}>
+            <div className="p-5 md:p-6 h-full flex flex-col justify-between">
+              <div>
+                <div className="w-12 h-12 rounded-full bg-amber-400/15 border border-amber-400/30 flex items-center justify-center mb-4">
+                  <Aperture className="w-5 h-5 text-amber-400" />
+                </div>
+                <h3 className="text-lg font-playfair font-semibold text-white mb-2">Senuka Rosa</h3>
+                <p className="text-white/50 text-sm leading-relaxed">
+                  Expierienced Photographer. Blending technical precision with artistic vision since 2020.
+                </p>
+              </div>
+              <div className="flex items-center gap-2.5 mt-5 pt-4 border-t border-white/5">
+                {socials.map(({ icon: Icon, href, label }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                    className="w-9 h-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center hover:border-amber-400/30 hover:bg-amber-400/10 transition-all group"
+                  >
+                    <Icon className="w-4 h-4 text-white/50 group-hover:text-amber-400 transition-colors" />
+                  </a>
+                ))}
+              </div>
+            </div>
+          </BentoTile>
+
+          {/* ── Tech stack ── */}
+          <BentoTile colSpan={4} rowSpan={2} accent="cyber" delay={4}>
+            <div className="p-5 md:p-6 h-full flex flex-col">
+              <div className="flex items-center gap-2 mb-4">
+                <Laptop className="w-4 h-4 text-cyber-400" />
+                <span className="font-jetbrains text-xs text-cyber-400 tracking-widest uppercase">Tech Stack</span>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {techStack.map((tech, i) => (
+                  <motion.span
+                    key={tech}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.06 + 0.2 }}
+                    className="text-xs px-3 py-1.5 rounded-lg bg-cyber-400/10 text-cyber-400/90 border border-cyber-400/20 font-jetbrains"
+                  >
+                    {tech}
+                  </motion.span>
+                ))}
+              </div>
+            </div>
+          </BentoTile>
+
+          {/* ── Latest project ── */}
+          <BentoTile colSpan={4} rowSpan={2} accent="neutral" delay={5}>
+            <div className="p-5 md:p-6 h-full flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-2 mb-4">
+                  <Github className="w-4 h-4 text-white/60" />
+                  <span className="font-jetbrains text-xs text-white/40 tracking-widest uppercase">Recent Projects</span>
+                </div>
+                <div className="space-y-3">
+                  {projects.map(p => (
+                    <div key={p.name} className="p-3 rounded-xl bg-white/3 border border-white/6">
+                      <p className="font-jetbrains text-xs text-white/80 truncate">{p.name}</p>
+                      <p className="text-white/40 text-xs mt-1 leading-snug">{p.desc}</p>
+                      <div className="flex items-center gap-2 mt-2">
+                        <span className="text-xs text-white/30 font-jetbrains">{p.lang}</span>
+                        <span className="text-xs text-white/30">★ {p.stars}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <Link href="/portfolio" className="text-xs text-cyber-400 hover:text-cyber-300 font-jetbrains mt-3 flex items-center gap-1">
+                See all projects <ArrowRight className="w-3 h-3" />
+              </Link>
+            </div>
+          </BentoTile>
+
+          {/* ── Contact CTA ── */}
+          <BentoTile colSpan={4} rowSpan={2} accent="amber" delay={6}>
+            <div className="p-5 md:p-6 h-full flex flex-col justify-between" id="contact">
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <Coffee className="w-4 h-4 text-amber-400" />
+                  <span className="font-jetbrains text-xs text-amber-400 tracking-widest uppercase">Let&apos;s Talk</span>
+                </div>
+                <h3 className="text-lg font-playfair font-semibold text-white mb-2">Start a Conversation</h3>
+                <div className="space-y-2.5">
+                  <a href="mailto:graphicshouse.lk@gmail.com" className="flex items-center gap-2.5 text-sm text-white/60 hover:text-white transition-colors">
+                    <Mail className="w-4 h-4 text-amber-400/70 shrink-0" />
+                    graphicshouse.lk@gmail.com
+                  </a>
+                  <a href="tel:+94718706242" className="flex items-center gap-2.5 text-sm text-white/60 hover:text-white transition-colors">
+                    <Phone className="w-4 h-4 text-amber-400/70 shrink-0" />
+                    071 870 6242
+                  </a>
+                </div>
+              </div>
+              <a
+                href="https://wa.me/94718706242"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 bg-amber-400 hover:bg-amber-300 text-[#0e0e0e] font-semibold text-sm py-2.5 px-4 rounded-xl transition-colors"
               >
-                <div className="text-4xl text-stone-300 mb-4">"</div>
-                <p className="text-stone-700 italic mb-6">{testimonial.quote}</p>
-                <div>
-                  <p className="font-semibold text-stone-800">{testimonial.name}</p>
-                  <p className="text-stone-500">{testimonial.location}</p>
-                </div>
+                <MessageCircle className="w-4 h-4" />
+                WhatsApp
+              </a>
+            </div>
+          </BentoTile>
+
+          {/* ── Gallery preview strip ── */}
+          <BentoTile colSpan={8} rowSpan={2} accent="amber" delay={7} className="cursor-pointer min-h-[180px] sm:min-h-0">
+            <Link href="/bellaluce" className="block w-full h-full group">
+              <div className="absolute inset-0 flex">
+                {["/gallery/photo2.jpg", "/gallery/photo4.jpg", "/gallery/photo6.jpg"].map((src, i) => (
+                  <div key={i} className="flex-1 relative overflow-hidden">
+                    <Image
+                      src={src}
+                      alt={`Gallery preview ${i + 1}`}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-700"
+                      style={{ transitionDelay: `${i * 50}ms` }}
+                    />
+                  </div>
+                ))}
+                <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-black/50" />
               </div>
-            ))}
-          </div>
-        </div>
+              <div className="absolute inset-0 flex items-center justify-center z-10">
+                <span className="px-5 py-2.5 rounded-xl bg-black/40 backdrop-blur-sm border border-amber-400/40 text-amber-400 text-sm font-medium group-hover:bg-black/60 transition-all">
+                  Open Viewing Room →
+                </span>
+              </div>
+            </Link>
+          </BentoTile>
+        </BentoGrid>
       </section>
 
-      {/* Contact Section */}
-      <section id="contact" className="py-20 bg-white">
-        <div className="container mx-auto px-4 md:px-6">
-          <h2 className="text-3xl md:text-4xl font-playfair font-semibold text-center mb-12 animate-on-scroll">
-            Contact Me
-          </h2>
-
-          <div className="grid md:grid-cols-2 gap-12 items-start">
-            <div className="space-y-8 animate-on-scroll">
-              <div>
-                <h3 className="text-xl font-semibold mb-4">Get in Touch</h3>
-                <div className="space-y-4">
-                  <div className="flex items-center gap-3">
-                    <Mail className="h-5 w-5 text-stone-700" />
-                    <a
-                      href="mailto:bellaluce.creative@gmail.com"
-                      className="text-stone-700 hover:text-stone-900 transition-colors"
-                    >
-                      bellaluce.creative@gmail.com
-                    </a>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Phone className="h-5 w-5 text-stone-700" />
-                    <a href="tel:+94767618727" className="text-stone-700 hover:text-stone-900 transition-colors">
-                      076 761 8727
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <h3 className="text-xl font-semibold mb-4">Follow Me</h3>
-                <div className="flex gap-4">
-                  <a
-                    href="https://web.facebook.com/profile.php?id=61574952052773"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-stone-700 hover:text-stone-900 transition-colors"
-                  >
-                    <Facebook className="h-5 w-5" />
-                    <span>Facebook</span>
-                  </a>
-                  <a
-                    href="https://www.instagram.com/senuka.rosa/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-stone-700 hover:text-stone-900 transition-colors"
-                  >
-                    <Instagram className="h-5 w-5" />
-                    <span>Instagram</span>
-                  </a>
-                </div>
-              </div>
-
-              <div>
-                <a
-                  href="https://wa.me/94767618727"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md transition-colors"
-                >
-                  <MessageCircle className="h-5 w-5" />
-                  <span>Message on WhatsApp</span>
-                </a>
-              </div>
-
-              <div className="mt-8">
-                <h3 className="text-xl font-semibold mb-4">Location</h3>
-                <div className="h-[300px] w-full border border-stone-200">
-                  <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126755.19543231002!2d79.79450847025894!3d7.204166538049264!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae2ed517c3b9573%3A0x284e3d2894c54a93!2sNegombo!5e0!3m2!1sen!2slk!4v1711777161716"
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                  ></iframe>
-                </div>
-              </div>
-            </div>
-
-            <div className="animate-on-scroll animation-delay-200">
-              <ContactForm />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="bg-stone-900 text-white py-12">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="grid md:grid-cols-3 gap-8 mb-8">
-            <div>
-              <h3 className="text-xl font-playfair font-semibold mb-4">Bella Luce</h3>
-              <p className="text-stone-400">Capturing timeless moments in Negombo, Sri Lanka and beyond.</p>
-            </div>
-
-            <div>
-              <h3 className="text-xl font-playfair font-semibold mb-4">Quick Links</h3>
-              <ul className="space-y-2">
-                <li>
-                  <Link href="#about" className="text-stone-400 hover:text-white transition-colors">
-                    About
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#packages" className="text-stone-400 hover:text-white transition-colors">
-                    Packages
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#gallery" className="text-stone-400 hover:text-white transition-colors">
-                    Gallery
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#contact" className="text-stone-400 hover:text-white transition-colors">
-                    Contact
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="text-xl font-playfair font-semibold mb-4">Contact</h3>
-              <ul className="space-y-2 text-stone-400">
-                <li>Negombo, Sri Lanka</li>
-                <li>076 761 8727</li>
-                <li>bellaluce.creative@gmail.com</li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="border-t border-stone-800 pt-8 text-center">
-            <p className="text-stone-400">
-              &copy; {new Date().getFullYear()} Bella Luce Photography. All rights reserved.
-            </p>
+      {/* ── FOOTER ───────────────────────────────────────────────── */}
+      <footer className="border-t border-white/5 py-10 mt-8">
+        <div className="container mx-auto px-4 md:px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="font-playfair text-white/40 text-sm">
+            © {new Date().getFullYear()} Senuka Rosa. All rights reserved.
+          </p>
+          <div className="flex items-center gap-6 text-sm text-white/40">
+            <Link href="/bellaluce" className="hover:text-amber-400 transition-colors">Photography</Link>
+            <Link href="/portfolio" className="hover:text-cyber-400 transition-colors">Portfolio</Link>
+            <Link href="/hypervisuals" className="hover:text-orange-400 transition-colors">HyperVisuals</Link>
           </div>
         </div>
       </footer>
     </main>
   )
 }
-

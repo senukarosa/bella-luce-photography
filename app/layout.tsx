@@ -5,6 +5,7 @@ import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import Header from "@/components/header"
 import ScrollAnimations from "@/components/scroll-animations"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const openSans = Open_Sans({
   subsets: ["latin"],
@@ -63,6 +64,7 @@ export default function RootLayout({
           <Header />
           <ScrollAnimations />
           {children}
+          <SpeedInsights />
         </ThemeProvider>
 
         {/* JSON-LD Schema Markup */}

@@ -27,7 +27,7 @@ const jetbrains = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "Senuka Rosa | Creative Multi-Disciplinary Professional",
+  title: "Senuka Rosa",
   description:
     "Senuka Rosa — Photographer, Software Engineer, and Creative Director. Explore Bella Luce Photography, coding projects, and HyperVisuals branding work.",
   keywords: [

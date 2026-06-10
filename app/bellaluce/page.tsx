@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 const packages = [
   {
     title: "Basic",
-    price: "LKR 12,000",
+    price: "LKR 15,000",
     tagline: "Perfect for individuals & social media",
     features: ["1 hour session", "1 location", "15 edited photos", "Digital delivery", "Basic retouching"],
     cta: "Book Basic",
@@ -22,7 +22,7 @@ const packages = [
   },
   {
     title: "Deluxe",
-    price: "LKR 16,000",
+    price: "LKR 25,000",
     tagline: "Most popular for couples & families",
     features: [
       "2 hours session",
@@ -37,14 +37,14 @@ const packages = [
   },
   {
     title: "Premium",
-    price: "LKR 28,000",
-    tagline: "Full coverage for portraits, couples & events",
+    price: "LKR 35,000",
+    tagline: "Full coverage fashion shoots for , Commercials & events",
     features: [
       "4 hours session",
       "Multiple locations",
-      "40-50 edited photos",
+      "40-60 edited photos",
       "Digital delivery",
-      "Premium retouching",
+      "Advanced retouching",
       "Optional: 5×7 prints",
       "Optional: 11×14 mounted print",
     ],

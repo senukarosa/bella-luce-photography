@@ -123,7 +123,7 @@ export default function HubPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
           >
-            Photographer capturing golden moments. Engineer building precision tools.
+            Photographer capturing golden moments. Securing Systems, Analyzing Threats.
             Creative director crafting bold visual identities.
           </motion.p>
 

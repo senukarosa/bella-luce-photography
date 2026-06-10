@@ -62,7 +62,7 @@ const socials = [
 /* ═══════════════════════════════════════════════════════════════════ */
 
 export default function HubPage() {
-  const typeText = useTypewriter(["Creator.", "Engineer.", "Visionary.", "Designer."], 90, 1600)
+  const typeText = useTypewriter(["Creator.", "Incident Responder.", "Visionary.", "Designer."], 90, 1600)
 
   return (
     <main className="min-h-screen bg-[#121212]">
